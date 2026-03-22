@@ -2,6 +2,8 @@
 
 Bayesian logistic regression classifier for cardiovascular risk prediction, built with NumPyro and JAX. Provides per-prediction uncertainty estimates via posterior sampling (NUTS/MCMC).
 
+![Frontend](docs/images/front.png)
+
 ## Stack
 
 - **Model** — NumPyro (NUTS sampler), JAX
