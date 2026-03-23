@@ -9,7 +9,7 @@ Bayesian logistic regression classifier for cardiovascular risk prediction, buil
 - **Model** — NumPyro (NUTS sampler), JAX
 - **Preprocessing** — scikit-learn pipeline, Pydantic validation
 - **API** — FastAPI + Uvicorn
-- **Frontend** — vanilla HTML/CSS/JS
+- **Frontend** — React + Vite (TypeScript), served via nginx
 
 ## Project structure
 
@@ -18,9 +18,10 @@ src/
   esitmator/        # BayessianClassifier (fit, predict, predict_proba, predict_uncertainty)
   models/           # NumPyro model definition, PatientRecord Pydantic schema
   preprocessing/    # Preprocessor (StandardScaler + OneHotEncoder pipeline)
-  server/           # FastAPI app
-frontend/           # Static HTML frontend
+  server/           # FastAPI app + Dockerfile
+frontend/           # React + Vite frontend + Dockerfile + nginx.conf
 data/               # Training data (NSH_clear.csv)
+docker-compose.yml  # Compose: server (8000) + frontend (80)
 fit_model.py        # Train and evaluate, saves figures/evaluation.png
 ```
 
@@ -54,16 +55,27 @@ Saves `figures/evaluation.png` with confusion matrix, ROC curve, and uncertainty
 uv run uvicorn src.server.server:app --host 0.0.0.0 --port 8000
 ```
 
-- `http://localhost:8000` — frontend
+- `http://localhost:8000/health` — health check (`GET`)
 - `http://localhost:8000/predict` — REST endpoint (`POST`)
 - `http://localhost:8000/docs` — Swagger UI
 
-### Docker
+### Frontend (dev)
 
 ```bash
-just run    # build and start
-just down   # stop and remove container
+cd frontend && npm install && npm run dev
 ```
+
+- `http://localhost:5173` — React dev server (proxies `/predict` to port 8000)
+
+### Docker (full stack)
+
+```bash
+just run    # build and start both services
+just down   # stop and remove containers
+```
+
+- `http://localhost` — frontend (nginx)
+- `http://localhost:8000` — API
 
 ## API
 

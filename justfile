@@ -1,10 +1,8 @@
 run:
-    docker build -t bayes-xai .
-    docker run -p 8000:8000 bayes-xai
+    docker compose up --build
 
 down:
-    docker stop $(docker ps -q --filter ancestor=bayes-xai) 2>/dev/null || true
-    docker rm $(docker ps -aq --filter ancestor=bayes-xai) 2>/dev/null || true
+    docker compose down
 
 lint:
     uv run ruff check .

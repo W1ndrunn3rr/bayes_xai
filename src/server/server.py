@@ -44,9 +44,14 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["POST"],
+    allow_methods=["GET", "POST"],
     allow_headers=["Content-Type"],
 )
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 
 @app.post("/predict", response_model=PredictionResponse)
@@ -69,7 +74,7 @@ def predict(record: PatientRecord):
     )
 
 
-_frontend = Path(__file__).resolve().parents[2] / "frontend"
+_frontend = Path(__file__).resolve().parents[2] / "frontend" / "dist"
 if _frontend.exists():
     app.mount("/", StaticFiles(directory=_frontend, html=True), name="frontend")
 
