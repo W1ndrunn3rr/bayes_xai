@@ -36,3 +36,8 @@ Thumbs.db
 
 # Ruff 
 .ruff_cache/
+
+
+# MlFlow
+mlruns/
+mlflow.db

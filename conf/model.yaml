@@ -1,0 +1,3 @@
+n_samples: 2000
+num_warmup: 500
+num_chains: 1

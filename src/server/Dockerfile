@@ -9,6 +9,7 @@ RUN uv sync --frozen --no-cache
 
 COPY src/ ./src/
 COPY data/ ./data/
+COPY conf/ ./conf/
 
 EXPOSE 8000
 
